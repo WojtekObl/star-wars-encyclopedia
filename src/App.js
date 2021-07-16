@@ -1,14 +1,14 @@
-import "./App.css";
 import PlanetDisplay from "./Components/MoviesDisplay";
+import { ReactComponent as Logo } from "./Assets/LOGO.svg";
 
-
+import "./App.css";
 
 function App() {
   return (
     <div className="app">
       <div className="app__wrapper">
-        <h1 className="app__header">Star Wars Encyclopedia</h1>
-        <PlanetDisplay/>
+        <Logo className="app__header" />
+        <PlanetDisplay />
       </div>
     </div>
   );

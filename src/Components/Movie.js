@@ -16,7 +16,7 @@ function Movie({ title, id }) {
 
   return (
     <div className="movie">
-      <div
+      <button
         className="movie__header"
         onClick={() => setTableCollapsed((prev) => !prev)}
         style={{
@@ -25,7 +25,7 @@ function Movie({ title, id }) {
       >
         <p>{title}</p>
         {tableCollapsed ? <ArrowClose /> : <ArrowOpen />}
-      </div>
+      </button>
       {tableCollapsed && <PlanetsTable movieId={id} />}
     </div>
   );

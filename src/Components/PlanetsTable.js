@@ -5,18 +5,16 @@ import { ReactComponent as ArrowUp } from "../Assets/Vector 2.svg";
 
 import "./PlanetsTable.css";
 
-function PlanetsTable({ movieId, tableHeight }) {
+function PlanetsTable({ movieId }) {
   const [sortConfig, setSortConfig] = useState({
     key: "name",
     direction: "ascending",
   });
 
-  const allPlanets = MoviesDB.data.planets;
-  const planetsInMovie = allPlanets.filter((planet) =>
-    planet.filmConnection.films.find((film) => film.id === movieId)
-  );
-
   const sortedPlanetsInMovie = useMemo(() => {
+    const planetsInMovie = MoviesDB.data.planets.filter((planet) =>
+      planet.filmConnection.films.find((film) => film.id === movieId)
+    );
     let PlanetsToSort = [...planetsInMovie];
 
     PlanetsToSort.sort((a, b) => {
@@ -29,157 +27,52 @@ function PlanetsTable({ movieId, tableHeight }) {
       return 0;
     });
     return PlanetsToSort;
-  }, [planetsInMovie, sortConfig]);
+  }, [movieId, sortConfig]);
 
-  const requestSort = (key) => {
-    let direction = "ascending";
-    if (
-      sortConfig &&
-      sortConfig.key === key &&
-      sortConfig.direction === "ascending"
-    ) {
-      direction = "descending";
-    }
-    setSortConfig({ key, direction });
-  };
-
-  // const getClassNamesFor = (name) => {
-  //   return sortConfig.key === name ? sortConfig.direction : undefined;
-  // };
+  const listOfHeaders = [
+    { tittle: "Planet Name", id: "name" },
+    { tittle: "Rotation period", id: "rotationPeriod" },
+    { tittle: "Orbital period", id: "orbitalPeriod" },
+    { tittle: "Diameter", id: "diameter" },
+    { tittle: "Climate", id: "climates" },
+    { tittle: "Surface Water", id: "surfaceWater" },
+    { tittle: "Population", id: "population" },
+  ];
 
   return (
     <div className="planets-table">
       <table>
         <thead>
           <tr>
-            <th
-              // onClick={() => requestSort("name")}
-              // className={getClassNamesFor("name")}
-            >
-              <div className="column-name first-column">
-                Planet Name
-                <div className="table__arrows">
-                  <ArrowUp
-                    className="arrow"
-                    onClick={() => requestSort("name", "ascending")}
-                  />
-                  <ArrowDown
-                    className="arrow"
-                    onClick={() => requestSort("name", "descending")}
-                  />
+            {listOfHeaders.map((header, index) => (
+              <th key={index}>
+                <div className="column-header">
+                  <p className="column-name">{header.tittle}</p>
+                  <div className="table__arrows">
+                    <ArrowUp
+                      tabIndex="0"
+                      className="arrow"
+                      onClick={() =>
+                        setSortConfig({
+                          key: `${header.id}`,
+                          direction: "ascending",
+                        })
+                      }
+                    />
+                    <ArrowDown
+                      tabIndex="0"
+                      className="arrow"
+                      onClick={() =>
+                        setSortConfig({
+                          key: `${header.id}`,
+                          direction: "descending",
+                        })
+                      }
+                    />
+                  </div>
                 </div>
-              </div>
-            </th>
-            <th
-            // onClick={() => requestSort("rotationPeriod")}
-            // className={getClassNamesFor("rotationPeriod")}
-            >
-              <div className="column-name">
-                Rotation <br />
-                period
-                <div className="table__arrows">
-                  <ArrowUp
-                    className="arrow"
-                    onClick={() => requestSort("rotationPeriod", "ascending")}
-                  />
-                  <ArrowDown
-                    className="arrow"
-                    onClick={() => requestSort("rotationPeriod", "descending")}
-                  />
-                </div>
-              </div>
-            </th>
-            <th
-              onClick={() => requestSort("orbitalPeriod")}
-              // className={getClassNamesFor("orbitalPeriod")}
-            >
-              <div className="column-name">
-                Orbital <br />
-                period
-                <div className="table__arrows">
-                  <ArrowUp
-                    className="arrow"
-                    onClick={() => requestSort("orbitalPeriod", "ascending")}
-                  />
-                  <ArrowDown
-                    className="arrow"
-                    onClick={() => requestSort("orbitalPeriod", "descending")}
-                  />
-                </div>
-              </div>
-            </th>
-            <th
-              onClick={() => requestSort("diameter")}
-              // className={getClassNamesFor("diameter")}
-            >
-              <div className="column-name">
-                Diameter
-                <div className="table__arrows">
-                  <ArrowUp
-                    className="arrow"
-                    onClick={() => requestSort("diameter", "ascending")}
-                  />
-                  <ArrowDown
-                    className="arrow"
-                    onClick={() => requestSort("diameter", "descending")}
-                  />
-                </div>
-              </div>
-            </th>
-            <th
-              onClick={() => requestSort("climates")}
-              // className={getClassNamesFor("climates")}
-            >
-              <div className="column-name">
-                Climate
-                <div className="table__arrows">
-                  <ArrowUp
-                    className="arrow"
-                    onClick={() => requestSort("climates", "ascending")}
-                  />
-                  <ArrowDown
-                    className="arrow"
-                    onClick={() => requestSort("climates", "descending")}
-                  />
-                </div>
-              </div>
-            </th>
-            <th
-              onClick={() => requestSort("surfaceWater")}
-              // className={getClassNamesFor("surfaceWater")}
-            >
-              <div className="column-name">
-                Surface
-                <br />
-                water
-                <div className="table__arrows">
-                  <ArrowUp
-                    className="arrow"
-                    onClick={() => requestSort("surfaceWater", "ascending")}
-                  />
-                  <ArrowDown
-                    className="arrow"
-                    onClick={() => requestSort("surfaceWater", "descending")}
-                  />
-                </div>
-              </div>
-            </th>
-            <th
-              onClick={() => requestSort("population")}
-              // className={getClassNamesFor("population")}
-            >
-              Population
-              <div className="table__arrows">
-                <ArrowUp
-                  className="arrow"
-                  onClick={() => requestSort("population", "ascending")}
-                />
-                <ArrowDown
-                  className="arrow"
-                  onClick={() => requestSort("population", "descending")}
-                />
-              </div>
-            </th>
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>

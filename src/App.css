@@ -9,7 +9,7 @@
   justify-content: center;
   align-items: flex-start;
   min-height: 100vh;
-  font-family: 'Barlow'
+  font-family: "Barlow";
 }
 
 .app__wrapper {
@@ -26,7 +26,16 @@
 }
 
 .app__header {
-  font-size: 35px;
-  color: #1ba1be;
   margin-bottom: 25px;
+}
+
+@media (max-width: 760px) {
+  .app__wrapper {
+    margin-top: 48px;
+  }
+}
+@media (max-width: 500px) {
+  .app__header {
+    width: 222px;
+  }
 }
